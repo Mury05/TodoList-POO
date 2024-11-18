@@ -1,5 +1,5 @@
 <?php 
-var_dump("Hello World");
+require "../src/Views/layout.php";
 
 // phpinfo();
 
