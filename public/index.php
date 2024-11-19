@@ -1,5 +1,6 @@
-<?php 
+<?php
 
+use App\Controllers\TodoController;
 use App\Router;
 require __DIR__."/../vendor/autoload.php";
 
@@ -11,11 +12,16 @@ if(!isset($_SESSION)){
 // Créer une instance du router 
 $router = new Router();
 
-$router->get("/", function() {});
-$router->get("/add", function() {});
-$router->post("/add", function() {});
-$router->get("/toggle", function() {});
-$router->update("/update", function() {});
-$router->delete("/delete", function() {});
+// Créer une instance de controlleur 
+$todoController = new TodoController();
 
-var_dump($router);
+// Enregistre les routes de l'application
+$router->get("/", [$todoController, 'index']);
+$router->get("/add", [$todoController, 'store']);
+$router->post("/add", [$todoController, 'store']);
+$router->get("/toggle", [$todoController, 'toggle']);
+$router->update("/update", [$todoController, 'update']);
+$router->delete("/delete", [$todoController, 'delete']);
+
+// Résoudre la route correspondante
+$router->resolve();
