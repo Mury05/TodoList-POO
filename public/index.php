@@ -20,7 +20,8 @@ $router->get("/", [$todoController, 'index']);
 $router->get("/add", [$todoController, 'create']);
 $router->post("/add", [$todoController, 'store']);
 $router->get("/toggle", [$todoController, 'toggle']);
-$router->update("/update", [$todoController, 'update']);
+$router->get("/update", [$todoController, 'edit']);
+$router->post("/update", [$todoController, 'update']);
 $router->get("/delete", [$todoController, 'delete']);
 
 // Résoudre la route correspondante

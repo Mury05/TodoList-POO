@@ -8,8 +8,11 @@ ob_start();
         <li>
             <span
                 style="text-decoration: <?= $todo['done'] ? 'line-through' : 'none' ?>"><?= htmlspecialchars($todo['task']); ?></span>
-            <a href="/toggle?id=<?= $todo['id'] ?>">✅</a>
-            <a href="/delete?id=<?= $todo['id'] ?>">❌</a>
+            <div>
+                <a href="/toggle?id=<?= $todo['id'] ?>">✅</a>
+                <a href="/delete?id=<?= $todo['id'] ?>">❌</a>
+                <a href="/update?id=<?= $todo['id'] ?>">📝</a>
+            </div>
         </li>
     <?php endforeach ?>
 </ul>

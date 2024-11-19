@@ -38,17 +38,39 @@ class TodoController {
     public function delete(){
 
         $id = $_GET['id'] ?? null;
-        if($id){
-            $_SESSION['Todos'] = array_filter($_SESSION['Todos'], function($todo) use ($id) {
-                return $todo['id'] !== $id;
-            });
-        }
+            if($id){
+                $_SESSION['Todos'] = array_filter($_SESSION['Todos'], function($todo) use ($id) {
+                    return $todo['id'] !== $id;
+                });
+            }
         header('Location: /');
         exit;
     }
 
-    public function update($id) {
-
+    public function edit() {
+        $id = $_GET['id'] ?? null;
+        if($id){
+            foreach ($_SESSION['Todos'] as &$todo) {
+                if($todo['id'] === $id){
+                    $todoItem = $todo;
+                }
+            }
+            require dirname(__DIR__)."/Views/edit.php";
+        }
+    }
+    public function update() {
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $id = $_GET['id'] ?? null;
+            if($id){
+                foreach ($_SESSION['Todos'] as &$todo) {
+                    if($todo['id'] === $id){
+                        $todo['task'] = $_POST['task'];
+                    }
+                }
+            }
+            header('Location: /');
+            exit;
+        }
     }
 
     public function toggle() {
