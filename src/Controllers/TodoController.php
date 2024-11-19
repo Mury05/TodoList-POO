@@ -53,9 +53,9 @@ class TodoController {
             foreach ($_SESSION['Todos'] as &$todo) {
                 if($todo['id'] === $id){
                     $todoItem = $todo;
+                    require dirname(__DIR__)."/Views/edit.php";
                 }
             }
-            require dirname(__DIR__)."/Views/edit.php";
         }
     }
     public function update() {
@@ -64,7 +64,10 @@ class TodoController {
             if($id){
                 foreach ($_SESSION['Todos'] as &$todo) {
                     if($todo['id'] === $id){
-                        $todo['task'] = $_POST['task'];
+                        $task = trim($_POST['task']);
+                        if($task){
+                            $todo['task'] = $task;
+                        }
                     }
                 }
             }
