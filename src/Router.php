@@ -89,10 +89,10 @@ class Router
         $requestMethod = $_SERVER['REQUEST_METHOD'];
 
         // Parcourir toutes les routes enregistrées.
-        foreach ($this->routes as $key => $route) {
-            # Vérifier si l'url et la méthode HTTP correspondent à la route actuelle.
-            if($route['url'] === $requestUrl && $route['method' === $requestMethod]){
-                # Si une correspondance est trouvée, exécute l'action associée.
+        foreach ($this->routes as $route) {
+            // Vérifier si l'url et la méthode HTTP correspondent à la route actuelle.
+            if($route['url'] === $requestUrl && $route['method'] === $requestMethod){
+                // Si une correspondance est trouvée, exécute l'action associée.
                 call_user_func($route['action']);
                 return; #Termine la méthode après avoir exécutée l'action.
             }

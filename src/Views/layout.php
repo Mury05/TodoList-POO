@@ -1,4 +1,3 @@
-<?php $content = 'Hello World !' ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
