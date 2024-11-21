@@ -1,18 +1,18 @@
 <?php
 namespace App\Controllers;
 
+use App\Models\Todo;
 use DB\Database;
 
 class TodoController
 {
+    private Todo $todoModel;
+    public function __construct(){
+        $this->todoModel = new Todo();
+    }
     public function index()
     {
-        // Récupérer l'instance de connexion à la bdd
-        $db = Database::getInstance();
-
-        // Récupérer les tâches depuis la BDD
-        $query = $db->query("SELECT * FROM todos;"); //Prepare la requête
-        $todos = $query->fetchAll(); // Retourne le résultat de l'éxécution de la requête
+        $todos = $this->todoModel->all();
 
         // Charger la vue "Views/index.php";
         // require __DIR__."/../Views/index.php";
@@ -32,18 +32,7 @@ class TodoController
             $task = trim($_POST["task"]);
             if ($task) {
 
-                // Récupérer l'instance de connexion à la bdd
-                $db = Database::getInstance();
-                //Prepare la requête SQL pour insérer une nouvelle tâche dans la table "todos".
-                // Les placeholders `:task` et `:done` sont utilisés pour éviter les injections SQL.
-                $stmt = $db->prepare("INSERT INTO todos (task, done) VALUES (:task, :done);");
-
-                // Exécute la requête préparée avex les valeurs spécifiques fournies dans un tableau associatif
-                // - `:task` contient la description de la tache saisie par l'utilisateur
-                // - `:done` est initialisé à 0 (indique quand la tâche n'est pas encore terminée)
-                $stmt->execute([":task" => $task, ":done" => 0]); //Exécute la requête
-                //$stmt->execute(["task"=> $task, "done" => 0]); //On peut retirer les ':' des placeholders. C'est pareil !
-
+              $this->todoModel->create($task);
             }
             header('Location: /');
             exit;
@@ -56,11 +45,7 @@ class TodoController
 
         $id = $_GET['id'] ?? null;
         if ($id) {
-            // Récupérer l'instance de connexion à la bdd
-            $db = Database::getInstance();
-
-            $stmt = $db->prepare("DELETE FROM todos WHERE id = :id"); //$stmt pour prepared statement
-            $stmt->execute(["id" => (int) $id]);
+            $this->todoModel->delete($id);
         }
         header('Location: /');
         exit;
@@ -70,13 +55,7 @@ class TodoController
     {
         $id = $_GET['id'] ?? null;
         if ($id) {
-
-            // Récupérer l'instance de connexion à la bdd
-            $db = Database::getInstance();
-
-            $query = $db->query("SELECT * FROM todos WHERE id = $id;"); //Prepare la requête
-            $todoItem = $query->fetch();
-
+            $todoItem = $this->todoModel->getOne($id);
 
             require dirname(__DIR__) . "/Views/edit.php";
 
@@ -90,12 +69,7 @@ class TodoController
             if ($id) {
                 $task = trim($_POST['task']);
                 if ($task) {
-                    // Récupérer l'instance de connexion à la bdd
-                    $db = Database::getInstance();
-
-                    $stmt = $db->prepare("UPDATE todos SET task = :task WHERE id= :id");
-                    $stmt->execute(["task" => $task, "id" => (int) $id]);
-
+                   $this->todoModel->update($id, $task);
                 }
 
             }
@@ -108,13 +82,7 @@ class TodoController
     {
         $id = $_GET['id'] ?? null;
         if ($id) {
-
-            // Récupérer l'instance de connexion à la bdd
-            $db = Database::getInstance();
-
-            $stmt = $db->prepare("UPDATE todos SET done = NOT done WHERE id= :id");
-            $stmt->execute(["id" => (int) $id]);
-
+            $this->todoModel->toggle($id);
         }
         header('Location: /');
         exit;
