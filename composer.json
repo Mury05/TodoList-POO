@@ -5,7 +5,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "DB\\": "database"
         }
     },
     "authors": [
@@ -14,5 +15,8 @@
             "email": "murielleodilone@gmail.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "scripts": {
+        "start":"php -S localhost:8080 -t public"
+    }
 }
