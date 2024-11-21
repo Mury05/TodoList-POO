@@ -2,7 +2,7 @@
 namespace DB;
 
 Use \PDO;
-use PDOException;
+use \PDOException;
 
 class Database
 {
@@ -28,7 +28,8 @@ class Database
         if(self::$instanceDb === null){
             try {
                 self::$instanceDb = new PDO(
-                    "mysql:host=" . self::DB_HOST . ";dbname=" . self::DB_NAME . ";charset=utf8mb4", self::DB_USER, 
+                    "mysql:host=" . self::DB_HOST . ";dbname=" . self::DB_NAME . ";charset=utf8mb4", 
+                    self::DB_USER, 
                     self::DB_PASSWORD,
                     [
                         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // Lever des exceptions quand il y a des erreurs
