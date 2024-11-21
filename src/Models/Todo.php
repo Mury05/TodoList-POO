@@ -1,9 +1,7 @@
 <?php
 namespace App\Models;
 
-use DB\Database;
-
-class Todo
+class Todo extends Model
 {
     /**
      * Récupère toutes les tâches dans la base de données
@@ -11,11 +9,8 @@ class Todo
      */
     public function all()
     {
-        // Récupérer l'instance de connexion à la bdd
-        $db = Database::getInstance();
-
         // Récupérer les tâches depuis la BDD
-        $query = $db->query("SELECT * FROM todos;"); //Prepare la requête
+        $query = $this->db->query("SELECT * FROM todos;"); //Prepare la requête
         return $query->fetchAll(); // Retourne le résultat de l'éxécution de la requête
     }
 
@@ -26,10 +21,7 @@ class Todo
      */
     public function getOne($id)
     {
-        // Récupérer l'instance de connexion à la bdd
-        $db = Database::getInstance();
-
-        $query = $db->query("SELECT * FROM todos WHERE id = $id;"); //Prepare la requête
+        $query = $this->db->query("SELECT * FROM todos WHERE id = $id;"); //Prepare la requête
         return $query->fetch();
     }
 
@@ -40,11 +32,9 @@ class Todo
      */
     public function create(string $task)
     {
-        // Récupérer l'instance de connexion à la bdd
-        $db = Database::getInstance();
         //Prepare la requête SQL pour insérer une nouvelle tâche dans la table "todos".
         // Les placeholders `:task` et `:done` sont utilisés pour éviter les injections SQL.
-        $stmt = $db->prepare("INSERT INTO todos (task, done) VALUES (:task, :done);");
+        $stmt = $this->db->prepare("INSERT INTO todos (task, done) VALUES (:task, :done);");
 
         // Exécute la requête préparée avex les valeurs spécifiques fournies dans un tableau associatif
         // - `:task` contient la description de la tache saisie par l'utilisateur
@@ -61,10 +51,7 @@ class Todo
      */
     public function update($id, string $task)
     {
-        // Récupérer l'instance de connexion à la bdd
-        $db = Database::getInstance();
-
-        $stmt = $db->prepare("UPDATE todos SET task = :task WHERE id= :id");
+        $stmt = $this->db->prepare("UPDATE todos SET task = :task WHERE id= :id");
         return $stmt->execute(["task" => $task, "id" => (int) $id]);
     }
 
@@ -75,10 +62,7 @@ class Todo
      */
     public function toggle($id)
     {
-        // Récupérer l'instance de connexion à la bdd
-        $db = Database::getInstance();
-
-        $stmt = $db->prepare("UPDATE todos SET done = NOT done WHERE id= :id");
+        $stmt = $this->db->prepare("UPDATE todos SET done = NOT done WHERE id= :id");
         return $stmt->execute(["id" => (int) $id]);
     }
 
@@ -89,10 +73,7 @@ class Todo
      */
     public function delete($id)
     {
-        // Récupérer l'instance de connexion à la bdd
-        $db = Database::getInstance();
-
-        $stmt = $db->prepare("DELETE FROM todos WHERE id = :id"); //$stmt pour prepared statement
+        $stmt = $this->db->prepare("DELETE FROM todos WHERE id = :id"); //$stmt pour prepared statement
         return $stmt->execute(["id" => (int) $id]);
     }
 }
