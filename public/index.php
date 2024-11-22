@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\TodoController;
+use App\Controllers\UserController;
 use App\Router;
 require __DIR__."/../vendor/autoload.php";
 
@@ -15,6 +16,8 @@ $router = new Router();
 // Créer une instance de controlleur 
 $todoController = new TodoController();
 
+$userController = new UserController();
+
 // Enregistre les routes de l'application
 $router->get("/", [$todoController, 'index']);
 $router->get("/add", [$todoController, 'create']);
@@ -23,6 +26,8 @@ $router->get("/toggle", [$todoController, 'toggle']);
 $router->get("/update", [$todoController, 'edit']);
 $router->post("/update", [$todoController, 'update']);
 $router->get("/delete", [$todoController, 'delete']);
+$router->get("/login", [$userController, 'loginView']);
+$router->get("/register", [$userController, 'registerView']);
 
 // Résoudre la route correspondante
 $router->resolve();
