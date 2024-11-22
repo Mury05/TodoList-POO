@@ -4,10 +4,11 @@ namespace App\Controllers;
 use App\Models\Todo;
 use DB\Database;
 
-class TodoController
+class TodoController extends Controller
 {
     private Todo $todoModel;
-    public function __construct(){
+    public function __construct()
+    {
         $this->todoModel = new Todo();
     }
     public function index()
@@ -17,13 +18,13 @@ class TodoController
         // Charger la vue "Views/index.php";
         // require __DIR__."/../Views/index.php";
 
-        require dirname(__DIR__) . "/Views/index.php";
+        $this->view("index", ["todos" => $todos] );
     }
 
     public function create()
     {
         // Charger la vue add.php
-        require dirname(__DIR__) . "/Views/add.php";
+        $this->view("add");
     }
 
     public function store()
@@ -32,10 +33,9 @@ class TodoController
             $task = trim($_POST["task"]);
             if ($task) {
 
-              $this->todoModel->create($task);
+                $this->todoModel->create($task);
             }
-            header('Location: /');
-            exit;
+            $this->redirect("/");
         }
 
     }
@@ -47,8 +47,8 @@ class TodoController
         if ($id) {
             $this->todoModel->delete($id);
         }
-        header('Location: /');
-        exit;
+        $this->redirect("/");
+
     }
 
     public function edit()
@@ -57,8 +57,7 @@ class TodoController
         if ($id) {
             $todoItem = $this->todoModel->getOne($id);
 
-            require dirname(__DIR__) . "/Views/edit.php";
-
+            $this->view("edit", ["todoItem" => $todoItem]);
 
         }
     }
@@ -69,12 +68,12 @@ class TodoController
             if ($id) {
                 $task = trim($_POST['task']);
                 if ($task) {
-                   $this->todoModel->update($id, $task);
+                    $this->todoModel->update($id, $task);
                 }
 
             }
-            header('Location: /');
-            exit;
+            $this->redirect("/");
+
         }
     }
 
@@ -84,7 +83,7 @@ class TodoController
         if ($id) {
             $this->todoModel->toggle($id);
         }
-        header('Location: /');
-        exit;
+        $this->redirect("/");
+
     }
 }
