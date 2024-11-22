@@ -4,7 +4,7 @@ ob_start();
 <div class="login-page">
   <div class="form">
     <h2>Connexion</h2>
-    <form class="login-form" action="" method="post">
+    <form class="login-form" action="/login" method="post">
       <input type="email" name="email" placeholder="Email"/>
       <input type="password" name="password" placeholder="Password"/>
       <button>Connexion</button>
