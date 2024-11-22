@@ -27,7 +27,9 @@ $router->get("/update", [$todoController, 'edit']);
 $router->post("/update", [$todoController, 'update']);
 $router->get("/delete", [$todoController, 'delete']);
 $router->get("/login", [$userController, 'loginView']);
+$router->post("/login", [$userController, 'login']);
 $router->get("/register", [$userController, 'registerView']);
+$router->post("/register", [$userController, 'register']);
 
 // Résoudre la route correspondante
 $router->resolve();

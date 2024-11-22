@@ -17,14 +17,27 @@ class TodoController extends Controller
 
         // Charger la vue "Views/index.php";
         // require __DIR__."/../Views/index.php";
-
-        $this->view("index", ["todos" => $todos] );
+         // Démarrer la session
+         if (!isset($_SESSION)) {
+            session_start();
+        }
+        if($_SESSION["user"]){
+           
+            $this->view("index", ["todos" => $todos] );
+        }
     }
 
     public function create()
     {
-        // Charger la vue add.php
-        $this->view("add");
+         // Démarrer la session
+         if (!isset($_SESSION)) {
+            session_start();
+        }
+        if($_SESSION["user"]){
+            // Charger la vue add.php
+            $this->view("add");
+        }
+        
     }
 
     public function store()

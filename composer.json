@@ -21,5 +21,8 @@
     "scripts": {
         "start": "php -S localhost:8080 -t public",
         "migrate": "php database/Migrations/migrate.php"
+    },
+    "config": {
+        "process-timeout":0
     }
 }
