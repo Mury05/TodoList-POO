@@ -32,14 +32,20 @@ class Todo extends Model
      */
     public function create(string $task)
     {
+         // Démarrer la session
+         if (!isset($_SESSION)) {
+            session_start();
+        }
+        $user_id = $_SESSION["user"]["id"];
+ 
         //Prepare la requête SQL pour insérer une nouvelle tâche dans la table "todos".
         // Les placeholders `:task` et `:done` sont utilisés pour éviter les injections SQL.
-        $stmt = $this->db->prepare("INSERT INTO todos (task, done) VALUES (:task, :done);");
+        $stmt = $this->db->prepare("INSERT INTO todos (task, done, user_id) VALUES (:task, :done, :user_id);");
 
         // Exécute la requête préparée avex les valeurs spécifiques fournies dans un tableau associatif
         // - `:task` contient la description de la tache saisie par l'utilisateur
         // - `:done` est initialisé à 0 (indique quand la tâche n'est pas encore terminée)
-        return $stmt->execute([":task" => $task, ":done" => 0]); //Exécute la requête
+        return $stmt->execute([":task" => $task, ":done" => 0, ":user_id" => $user_id]); //Exécute la requête
         //$stmt->execute(["task"=> $task, "done" => 0]); //On peut retirer les ':' des placeholders. C'est pareil !
 
     }
