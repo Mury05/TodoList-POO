@@ -3,12 +3,12 @@ ob_start();
 ?>
 <div class="login-page">
   <div class="form">
-    <form class="register-form" action="" method="post">
+    <form class="register-form" action="/register" method="post">
         <h2>S'inscrire</h2>
+        <p class="error" ><?=$msg ?? ''?></p>
       <input type="text" name="username" placeholder="Username"/>
       <input type="email" name="email" placeholder="Email"/>
       <input type="password" name="password" placeholder="Password"/>
-      <input type="password" name="confirm_password" placeholder="Confirm password"/>
       <button>S'inscrire</button>
       <p class="message">Vous avez un compte ? <a href="/login">Connexion</a></p>
     </form>
